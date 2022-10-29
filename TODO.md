@@ -1,9 +1,9 @@
 TODO
-[ ] Add .env file
-[ ] Add Postgres
-[ ] Create function to create user from repl
-[ ] Add user authenitcation
-[ ] Create data model
+- [ ] Add .env file
+- [ ] Add Postgres
+- [ ] Create function to create user from repl
+- [ ] Add user authenitcation
+- [ ] Create data model
 
 -   user
     -   id (pk)
