@@ -1,8 +1,8 @@
 TODO
-- [ ] Add .env file
-- [ ] Add Postgres
-- [ ] Create function to create user from repl
-- [ ] Add user authenitcation
+- [x] Add .env file
+- [x] Add Postgres
+- [x] Create function to create user from repl
+- [ ] Add user authenitication
 - [ ] Create data model
 
 -   user
