@@ -70,6 +70,8 @@
     :port (parse-integer  (get-env "POSTGRES_PORT"))))
 
 ;;; DAO CLASSES ;;;
+
+#+nil
 (defclass user () 
   ((id :col-type integer 
        :col-identity t
