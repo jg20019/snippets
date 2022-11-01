@@ -6,6 +6,6 @@
   :license  "Specify license here"
   :version "0.0.1"
   :serial t
-  :depends-on (#:hunchentoot #:djula)
+  :depends-on (#:hunchentoot #:djula #:cl-pass #:postmodern)
   :components ((:file "package")
                (:file "snippets")))
