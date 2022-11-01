@@ -60,3 +60,36 @@
   (djula:render-template* +index.html+ nil))
 
 ;;; DATABASE ;;;
+
+(defun connect-db ()
+  (postmodern:connect-toplevel 
+    (get-env "POSTGRES_DB")
+    (get-env "POSTGRES_USER")
+    (get-env "POSTGRES_PASSWORD")
+    (get-env "POSTGRES_HOST")
+    :port (parse-integer  (get-env "POSTGRES_PORT"))))
+
+;;; DAO CLASSES ;;;
+(defclass user () 
+  ((id :col-type integer 
+       :col-identity t
+       :accessor user-id)
+   (email :col-type string 
+          :initarg :email
+          :reader user-email)
+   (password :col-type string
+             :initarg :password
+             :reader user-password)
+   (:metaclass postmodern:dao-class)
+   (:table-name users)))
+
+;;; TABLES ;;;
+
+(defun create-user-table () 
+  (postmodern:query (:create-table 'users
+                     ((id :type integer :primary-key t :identity-always t)
+                      (email :type :text :unique t :check (:<> 'email ""))
+                      (password :type :text :check (:<> 'password ""))))))
+
+#+nil
+(create-user-table)
