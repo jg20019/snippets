@@ -68,28 +68,15 @@
 ;;; DATABASE ;;;
 
 (defun connect-to-db ()
+  "Connect to the database."
   (postmodern:connect-toplevel 
     (get-env "POSTGRES_DB")
     (get-env "POSTGRES_USER")
     (get-env "POSTGRES_PASSWORD")
     (get-env "POSTGRES_HOST")
-    :port (parse-integer  (get-env "POSTGRES_PORT"))))
+    :port (parse-integer  (get-env "POSTGRES_PORT")))
+  t)
 
-;;; DAO CLASSES ;;;
-
-#+nil
-(defclass user () 
-  ((id :col-type integer 
-       :col-identity t
-       :accessor user-id)
-   (email :col-type string 
-          :initarg :email
-          :reader user-email)
-   (password :col-type string
-             :initarg :password
-             :reader user-password)
-   (:metaclass postmodern:dao-class)
-   (:table-name users)))
 
 ;;; TABLES ;;;
 
@@ -117,11 +104,18 @@
 
 (defun get-user (email) 
   "Get user by the given email"
-  (first (postmodern:query (:select 'email 'password :from 'users :where (:= 'email email)))))
+  (first (postmodern:query (:select 'id 'email 'password :from 'users :where (:= 'email email)))))
 
 (defun authenticatep (email password) 
   "Check if user with email and password exists"
   (let ((user (get-user email)))
     (when user 
-      (cl-pass:check-password password (second user)))))
+      (cl-pass:check-password password (third user)))))
 
+;;; SNIPPETS ;;;
+
+(defun save-snippet (title content language user-id)
+  "Save snippet in database."
+  (postmodern:query (:insert-into 'snippets
+                     :set 'title title 'content content
+                     'language language 'user-id user-id)))
