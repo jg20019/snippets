@@ -60,10 +60,16 @@
 
 (defparameter +index.html+ (djula:compile-template* "index.html"))
 
+#+nil
+(defparameter +login.html+ (djula:compile-template* "login.html"))
+
 ;;; ROUTES ;;; 
 
 (hunchentoot:define-easy-handler (index :uri "/") () 
   (djula:render-template* +index.html+ nil))
+
+(hunchentoot:define-easy-handler (login :uri "/login") () 
+  (djula:render-template* +login.html+ nil))
 
 ;;; DATABASE ;;;
 
