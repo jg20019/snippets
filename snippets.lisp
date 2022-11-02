@@ -93,5 +93,22 @@
                       (email :type :text :unique t :check (:<> 'email ""))
                       (password :type :text :check (:<> 'password ""))))))
 
-#+nil
-(create-user-table)
+
+;;; USERS & AUTHENTICATION ;;;
+
+(defun save-user (email password) 
+  "Save user in database"
+  (let ((password-hash (cl-pass:hash password)))
+    (postmodern:query (:insert-into 'users 
+                       :set 'email email 'password password-hash))))
+
+(defun get-user (email) 
+  "Get user by the given email"
+  (first (postmodern:query (:select 'email 'password :from 'users :where (:= 'email email)))))
+
+(defun authenticatep (email password) 
+  "Check if user with email and password exists"
+  (let ((user (get-user email)))
+    (when user 
+      (cl-pass:check-password password (second user)))))
+
