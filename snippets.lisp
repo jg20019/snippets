@@ -2,6 +2,12 @@
 
 (in-package #:snippets)
 
+;;; MAIN ;;; 
+(defun main () 
+  "Main entry point to the program"
+  (load-env)
+  (connect-to-db))
+
 ;;; ENV ;;;
 
 (defparameter *env* (make-hash-table :test #'equal))
@@ -61,7 +67,7 @@
 
 ;;; DATABASE ;;;
 
-(defun connect-db ()
+(defun connect-to-db ()
   (postmodern:connect-toplevel 
     (get-env "POSTGRES_DB")
     (get-env "POSTGRES_USER")
