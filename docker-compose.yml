@@ -10,3 +10,7 @@ services:
       POSTGRES_PASSWORD: example
     ports:
       - 5432:5432
+    volumes:
+      - snippetsdb:/var/lib/postgresql/data
+volumes:
+    snippetsdb:
