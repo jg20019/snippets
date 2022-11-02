@@ -119,3 +119,14 @@
   (postmodern:query (:insert-into 'snippets
                      :set 'title title 'content content
                      'language language 'user-id user-id)))
+
+(defun get-user-snippets (user-id) 
+  "Get snippets for user"
+  (postmodern:query (:select 
+                      'id 
+                      'title
+                      'content
+                      'language
+                      'user-id
+                     :from 'snippets
+                     :where (:= 'user-id user-id))))

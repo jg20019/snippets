@@ -17,9 +17,10 @@ TODO
     -   content
     -   language
 
-[ ] Save snippets in database
-[ ] Fetch snippets by user id 
+[x] Save snippets in database
+[x] Fetch snippets by user id 
 [ ] Create a login page 
+[ ] Save successful login in session
 [ ] Create a form for saving and editing snippets
 [ ] Show list of snippets created by user
 [ ] Create a page to search through a users snippets
