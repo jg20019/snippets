@@ -93,6 +93,13 @@
                       (email :type :text :unique t :check (:<> 'email ""))
                       (password :type :text :check (:<> 'password ""))))))
 
+(defun create-snippets-table () 
+  (postmodern:query (:create-table 'snippets 
+                     ((id :type integer :primary-key t :identity-always t)
+                      (title :type :text :check (:<> 'title ""))
+                      (content :type :text :check (:<> 'content ""))
+                      (language :type :text :check (:<> 'language ""))
+                      (user-id :type integer :references ((users id)))))))
 
 ;;; USERS & AUTHENTICATION ;;;
 
