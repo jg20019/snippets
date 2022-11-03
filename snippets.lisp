@@ -60,16 +60,31 @@
 
 (defparameter +index.html+ (djula:compile-template* "index.html"))
 
-#+nil
 (defparameter +login.html+ (djula:compile-template* "login.html"))
+
+;;; SESSIONS ;;; 
 
 ;;; ROUTES ;;; 
 
 (hunchentoot:define-easy-handler (index :uri "/") () 
+  (hunchentoot:start-session)
   (djula:render-template* +index.html+ nil))
 
-(hunchentoot:define-easy-handler (login :uri "/login") () 
-  (djula:render-template* +login.html+ nil))
+(hunchentoot:define-easy-handler (login :uri "/login") ((email :request-type :POST) (password :request-type :POST)) 
+  (hunchentoot:start-session)
+  ; if it is a get request just render the template
+  ; if it is a post request get the email and password
+  ; if it is authenticate save user-id in session and then
+  ; redirect to the home page 
+  ; if it is not authenticated send an error message and the email 
+  ; and render the login template
+  (cond ((equal :get (hunchentoot:request-method*)) 
+         (djula:render-template* +login.html+ nil))
+        (t  (let ((user-id (authenticatep email password)))
+              (if user-id 
+                  (progn  (setf (hunchentoot:session-value 'user-id) user-id)
+                          "Login successful") ;; need to handle redirect here.
+                  (djula:render-template* +login.html+ nil :email email :message "Incorrect email/password"))))))
 
 ;;; DATABASE ;;;
 
@@ -113,10 +128,15 @@
   (first (postmodern:query (:select 'id 'email 'password :from 'users :where (:= 'email email)))))
 
 (defun authenticatep (email password) 
-  "Check if user with email and password exists"
+  "Check if user with email and password exists. 
+   Returns user-id on success and returns nil on failure"
   (let ((user (get-user email)))
-    (when user 
-      (cl-pass:check-password password (third user)))))
+    (when (and user (cl-pass:check-password password (third user)))
+      (first user))))
+
+(defun loggedinp () 
+  "Returns true if user is logged in."
+  nil)
 
 ;;; SNIPPETS ;;;
 

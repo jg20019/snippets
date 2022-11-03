@@ -1,8 +1,9 @@
 {% extends "base.html" %} {% block title %} Login {% endblock %} 
 {% block content %}
 <form action="login" method="post">
+    {% if message %} <p> {{ message }} </p> {% endif %}
     <label for="email">Email </label>
-    <input type="text" name="email"> 
+    <input type="text" name="email" value="{{ email }}"> 
     <br>
 
     <label for="password">Password </label>

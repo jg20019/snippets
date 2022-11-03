@@ -12,4 +12,5 @@ in 30 days and (hopefully) have a decent and working project.
 -   2022-10-30: Install docker with posgtres and read .env
 -   2022-10-31: Connect to db and create user table
 -   2022-11-01: Implement user authentication, create snippets table
--   2022-11-02: add volume to postgres container
+-   2022-11-02: Add volume to postgres container
+-   2022-11-03: Implement basic login flow
